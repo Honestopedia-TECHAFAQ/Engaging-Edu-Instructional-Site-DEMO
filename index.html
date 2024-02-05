@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educational Website</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+.quiz-question {
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <label for="course">Select a course:</label>
+            <select id="course" class="form-control">
+                <option value="python">Introduction to Python</option>
+                <option value="pandas">Data Analysis with Pandas</option>
+                <option value="ml">Machine Learning Basics</option>
+            </select>
+            <div class="embed-responsive embed-responsive-16by9 mt-3">
+                <iframe id="video" class="embed-responsive-item" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="quiz-container mt-3">
+                <h3 class="mb-4">Quiz</h3>
+                <div class="form-group">
+                    <label for="answer1" class="quiz-question" id="question1"></label>
+                    <input type="text" class="form-control" id="answer1">
+                </div>
+                <div class="form-group">
+                    <label for="answer2" class="quiz-question" id="question2"></label>
+                    <input type="text" class="form-control" id="answer2">
+                </div>
+                <div class="form-group">
+                    <label for="answer3" class="quiz-question" id="question3"></label>
+                    <input type="text" class="form-control" id="answer3">
+                </div>
+                <button class="btn btn-primary" onclick="checkAnswers()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+const courseVideos = {
+    python: 'https://www.youtube.com/embed/rfscVS0vtbw',
+    pandas: 'https://www.youtube.com/embed/0uaClRB8YI8',
+    ml: 'https://www.youtube.com/embed/nKW8Ndu7Mjw'
+};
+const correctAnswers = {
+    question1: 'A programming language',
+    question2: 'A data analysis library',
+    question3: 'A subset of artificial intelligence'
+};
+function updateCourse() {
+    const selectedCourse = document.getElementById('course').value;
+    document.getElementById('video').src = courseVideos[selectedCourse];
+    for (const question in correctAnswers) {
+        document.getElementById(question).textContent = document.getElementById('course').options[document.getElementById('course').selectedIndex].text + ': ' + document.getElementById(question).textContent;
+    }
+}
+function checkAnswers() {
+    let score = 0;
+    for (const question in correctAnswers) {
+        const userAnswer = document.getElementById('answer' + question.slice(-1)).value;
+        if (userAnswer.toLowerCase() === correctAnswers[question].toLowerCase()) {
+            score++;
+        }
+    }
+    alert('Quiz Score: ' + score + '/3');
+}
+updateCourse();
+</script>
+</body>
+</html>
